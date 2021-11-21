@@ -1,6 +1,8 @@
 from flask import Flask, request
 import json
 import os
+import base64
+import uuid
 
 from respond import Respond
 
@@ -38,6 +40,22 @@ def create_image():
                     result['errmsg'] = str(e)
                     result['status'] = 'Error'
     return(json.dumps(result))
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    result = {'status': 'OK'}
+    # GET uploaded image from JSON
+    try:
+        data = request.get_json()
+        extension = data['extension']
+        filename = str(uuid.uuid4()) + '.' + extension
+        with open(os.environ['IMAGE_FOLDER'] + f'/input/{filename}', 'wb') as f:
+            f.write(base64.b64decode(data['img']))
+            result['filename'] = filename
+    except Exception as e:
+        result['errmsg'] = 'invalid request'
+        result['status'] = 'Error'
+    return json.dumps(result)
 
 @app.route('/create-image-test', methods=['POST'])
 def create_image_test():
