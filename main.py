@@ -5,7 +5,7 @@ import os
 from respond import Respond
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = ''# Change this to your credentials
-os.environ['RESULT_IMAGE_OUTPUT_PATH'] = ''# Change to the output path
+os.environ['IMAGE_FOLDER'] = ''# Change to the output path
 app = Flask(__name__)
 
 @app.route('/')
@@ -58,7 +58,8 @@ def create_image_test():
             else:
                 try:
                     for img in data['imgs']:
-                        if not os.path.isfile(img):
+                        filefolder = os.environ['RESULT_IMAGE_OUTPUT_PATH'] 
+                        if not os.path.isfile(f'{filefolder}\\input\\{img}'):
                             raise Exception('Image not found')
                     result['result'] = ['a3cefeae-011e-4cff-aafa-87dd719e8db5.png']
                 except Exception as e:

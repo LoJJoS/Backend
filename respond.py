@@ -24,7 +24,7 @@ class Respond:
                 if len(faces) == 0:
                     raise ValueError('No face dected')
                 face = Face(faces[0])
-                _, filename =  d.draw_face(face, save=True)
+                _, filename =  d.draw_face(face, save=True,path = os.environ['IMAGE_FOLDER'] + '\\output\\')
                 self.result_path.append(filename)
             else:
                 raise ValueError(f'File ({img_path}) not found')
