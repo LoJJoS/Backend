@@ -33,6 +33,7 @@ def create_image():
                 try:
                     respond = Respond(data['imgs'])
                     result['result'] = respond.result_path
+                    result['room']=token
                 except Exception as e:
                     result['errmsg'] = str(e)
                     result['status'] = 'Error'
@@ -58,10 +59,11 @@ def create_image_test():
             else:
                 try:
                     for img in data['imgs']:
-                        filefolder = os.environ['RESULT_IMAGE_OUTPUT_PATH'] 
-                        if not os.path.isfile(f'{filefolder}\\input\\{img}'):
+                        filefolder = os.environ['IMAGE_FOLDER'] 
+                        if not os.path.isfile(f'{filefolder}/input/{img}'):
                             raise Exception('Image not found')
                     result['result'] = ['a3cefeae-011e-4cff-aafa-87dd719e8db5.png']
+                    result['room']=token
                 except Exception as e:
                     result['errmsg'] = str(e)
                     result['status'] = 'Error'
